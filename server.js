@@ -9,13 +9,20 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // ── Pricing data (single source of truth, shared with frontend via /api/pricing) ──
 
+// All colors are from the Dwyer ENVI Quartz collection — envisurfaces.com
 const MATERIALS = {
-  white_quartz:     { label: 'White Quartz',          pricePerSqFt: 85,  hex: '#F5F5F0' },
-  calacatta_white:  { label: 'Calacatta White Quartz', pricePerSqFt: 95,  hex: '#EFEFEA' },
-  carrara_marble:   { label: 'Carrara Marble Look',    pricePerSqFt: 100, hex: '#E8E8E2' },
-  black_galaxy:     { label: 'Black Galaxy Granite',   pricePerSqFt: 80,  hex: '#1A1A1A' },
-  concrete_gray:    { label: 'Concrete Gray Quartz',   pricePerSqFt: 75,  hex: '#8A8A85' },
-  emerald_pearl:    { label: 'Emerald Pearl Granite',  pricePerSqFt: 90,  hex: '#3D4A3A' },
+  temple_white:    { label: 'Temple White',     pricePerSqFt: 85,  hex: '#F9F8F5' },
+  venezia:         { label: 'Venezia',          pricePerSqFt: 90,  hex: '#F0EDE4' },
+  elegance:        { label: 'Elegance',         pricePerSqFt: 90,  hex: '#F2F2F2' },
+  calacatta_vivo:  { label: 'Calacatta Vivo',   pricePerSqFt: 95,  hex: '#EDE8DF' },
+  calacatta_sol:   { label: 'Calacatta Sol',    pricePerSqFt: 100, hex: '#EDE8DC' },
+  statuario_roma:  { label: 'Statuario Roma',   pricePerSqFt: 95,  hex: '#EEEEEC' },
+  seabrooke:       { label: 'Seabrooke',        pricePerSqFt: 95,  hex: '#DDD8D0' },
+  coastal_grey:    { label: 'Coastal Grey',     pricePerSqFt: 85,  hex: '#C8C8C6' },
+  rembrandt:       { label: 'Rembrandt',        pricePerSqFt: 100, hex: '#C8B07A' },
+  taj_mahal_satin: { label: 'Taj Mahal Satin',  pricePerSqFt: 100, hex: '#E8DDCA' },
+  ganache:         { label: 'Ganache',          pricePerSqFt: 95,  hex: '#F5F0E8' },
+  dark_smoke:      { label: 'Dark Smoke',       pricePerSqFt: 90,  hex: '#1E1E1E' },
 };
 
 const EDGE_PROFILES = {

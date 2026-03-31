@@ -1,20 +1,27 @@
 /* ── Third Coast Stone — Vanity Configurator ── */
 
 // Material background gradients for the stone preview
+// All colors are Dwyer ENVI Quartz — envisurfaces.com
 const MATERIAL_GRADIENTS = {
-  white_quartz:    'linear-gradient(135deg, #F5F5F0 0%, #E8E8E2 50%, #DCDCD6 100%)',
-  calacatta_white: 'linear-gradient(135deg, #EFEFEA 0%, #E2E0DB 40%, #D8D5CE 100%)',
-  carrara_marble:  'linear-gradient(135deg, #E8E8E2 0%, #DDDBD5 40%, #CFCDC7 100%)',
-  black_galaxy:    'linear-gradient(135deg, #1A1A1A 0%, #111111 50%, #0A0A0A 100%)',
-  concrete_gray:   'linear-gradient(135deg, #8A8A85 0%, #7A7A75 50%, #6E6E69 100%)',
-  emerald_pearl:   'linear-gradient(135deg, #3D4A3A 0%, #303D2D 50%, #252F23 100%)',
+  temple_white:    'linear-gradient(135deg, #FAF9F7 0%, #F2F1EE 60%, #E8E7E3 100%)',
+  venezia:         'linear-gradient(135deg, #F3F0E8 0%, #EAE5D8 40%, #DDD6C4 100%)',
+  elegance:        'linear-gradient(140deg, #F6F6F6 0%, #E8E8E8 30%, #D8D5D0 60%, #CACACA 100%)',
+  calacatta_vivo:  'linear-gradient(135deg, #F0ECE2 0%, #E5DED0 50%, #D5CDB8 100%)',
+  calacatta_sol:   'linear-gradient(135deg, #F2ECD8 0%, #E8DCBC 50%, #D8C898 100%)',
+  statuario_roma:  'linear-gradient(140deg, #F4F4F2 0%, #E8E6E0 35%, #D0CCBC 70%, #C4C0B0 100%)',
+  seabrooke:       'linear-gradient(135deg, #E4E0D8 0%, #D4CEC4 50%, #C4BCB0 100%)',
+  coastal_grey:    'linear-gradient(135deg, #D0D0CE 0%, #C2C2C0 50%, #B4B4B2 100%)',
+  rembrandt:       'linear-gradient(135deg, #D4BE88 0%, #C4AC70 50%, #B09858 100%)',
+  taj_mahal_satin: 'linear-gradient(135deg, #EEE3CC 0%, #E4D4B4 50%, #D4C09A 100%)',
+  ganache:         'linear-gradient(140deg, #F8F4EE 0%, #EDE4D4 35%, #D8C8A8 65%, #C8B488 100%)',
+  dark_smoke:      'linear-gradient(135deg, #2C2C2C 0%, #1A1A1A 50%, #0E0E0E 100%)',
 };
 
 // Config state
 const state = {
   widthIn:     24,
   depthIn:     22,
-  material:    'white_quartz',
+  material:    'temple_white',
   edgeProfile: 'eased',
   sinkCutout:  'none',
   backsplash:  'none',
