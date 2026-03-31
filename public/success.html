@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Order Confirmed — Third Coast Stone</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/styles.css" />
+  <style>
+    body { min-height: 100vh; display: flex; flex-direction: column; }
+    .success-page {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 24px;
+    }
+    .success-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 48px 40px;
+      max-width: 560px;
+      width: 100%;
+      box-shadow: var(--shadow-lg);
+      text-align: center;
+    }
+    .check-circle {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: #DCFCE7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      font-size: 36px;
+    }
+    .success-card h1 { font-size: 30px; margin-bottom: 10px; color: #166534; }
+    .success-card .sub { color: var(--stone-dark); margin-bottom: 32px; font-size: 15px; }
+    .order-details {
+      background: var(--warm-white);
+      border-radius: 10px;
+      padding: 20px;
+      text-align: left;
+      margin-bottom: 28px;
+    }
+    .order-details h3 { font-size: 16px; margin-bottom: 14px; }
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      padding: 5px 0;
+      border-bottom: 1px solid #F0EDE7;
+    }
+    .detail-row:last-child { border-bottom: none; }
+    .detail-row span:first-child { color: var(--stone-dark); }
+    .detail-row span:last-child { font-weight: 500; }
+    .total-row { font-size: 16px; font-weight: 700; margin-top: 8px; }
+    .loading-state { color: var(--stone-dark); font-style: italic; padding: 20px 0; }
+    .next-steps { font-size: 14px; color: var(--stone-dark); line-height: 1.7; margin-bottom: 28px; }
+    .next-steps strong { color: var(--charcoal); }
+    .home-link { margin-top: 8px; }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="logo">
+        <a href="/">
+          <span class="logo-main">Third Coast Stone</span>
+          <span class="logo-sub">Custom Countertops &amp; Vanity Tops</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div class="success-page">
+    <div class="success-card">
+      <div class="check-circle">✓</div>
+      <h1>Order Confirmed!</h1>
+      <p class="sub">Thank you for your order. A confirmation email is on its way to you.</p>
+
+      <div class="order-details" id="orderDetails">
+        <p class="loading-state">Loading your order details…</p>
+      </div>
+
+      <p class="next-steps">
+        <strong>What happens next?</strong><br/>
+        Our team will review your order and reach out within one business day to confirm
+        measurements and schedule fabrication. Lead time is typically <strong>7–10 business days</strong>.
+        Questions? Call us at <a href="tel:+1-555-000-0000">(555) 000-0000</a>.
+      </p>
+
+      <a href="/" class="btn btn-primary home-link">Back to Home</a>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-bottom" style="text-align:center;padding:20px 24px;">
+      <p>&copy; 2026 Third Coast Stone. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    const MATERIAL_LABELS = {
+      white_quartz:    'White Quartz',
+      calacatta_white: 'Calacatta White Quartz',
+      carrara_marble:  'Carrara Marble Look',
+      black_galaxy:    'Black Galaxy Granite',
+      concrete_gray:   'Concrete Gray Quartz',
+      emerald_pearl:   'Emerald Pearl Granite',
+    };
+    const EDGE_LABELS = {
+      eased:       'Eased (Standard)',
+      beveled:     'Beveled',
+      bullnose:    'Bullnose',
+      ogee:        'Ogee',
+      double_ogee: 'Double Ogee',
+    };
+    const SINK_LABELS = {
+      none:              'No Cutout',
+      single_undermount: 'Single Undermount',
+      double_undermount: 'Double Undermount',
+      vessel:            'Vessel Sink',
+    };
+    const BS_LABELS = {
+      none:    'No Backsplash',
+      four_in: '4" Backsplash',
+    };
+    const FAUCET_LABELS = {
+      none:  'No Faucet Holes',
+      one:   '1 Hole',
+      three: '3 Holes',
+    };
+
+    async function loadOrder() {
+      const sessionId = new URLSearchParams(window.location.search).get('session_id');
+      const el = document.getElementById('orderDetails');
+
+      if (!sessionId) {
+        el.innerHTML = '<p style="color:#999">No order ID found.</p>';
+        return;
+      }
+
+      try {
+        const res  = await fetch(`/api/order/${sessionId}`);
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error);
+
+        const fmt = n => '$' + parseFloat(n).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+        el.innerHTML = `
+          <h3>Order Summary</h3>
+          ${row('Customer',     data.customerName)}
+          ${row('Email',        data.customerEmail)}
+          ${row('Size',         `${data.widthIn}" × ${data.depthIn}"`)}
+          ${row('Material',     MATERIAL_LABELS[data.material] || data.material)}
+          ${row('Edge Profile', EDGE_LABELS[data.edgeProfile]  || data.edgeProfile)}
+          ${row('Sink Cutout',  SINK_LABELS[data.sinkCutout]   || data.sinkCutout)}
+          ${row('Backsplash',   BS_LABELS[data.backsplash]     || data.backsplash)}
+          ${row('Faucet Holes', FAUCET_LABELS[data.faucetHoles]|| data.faucetHoles)}
+          <div class="detail-row total-row">
+            <span>Total Paid</span>
+            <span style="color:var(--accent)">${fmt(data.total)}</span>
+          </div>`;
+      } catch (e) {
+        el.innerHTML = '<p style="color:var(--stone-dark)">Could not load order details. Your payment was received — check your email for confirmation.</p>';
+      }
+    }
+
+    function row(label, value) {
+      return `<div class="detail-row"><span>${label}</span><span>${value}</span></div>`;
+    }
+
+    loadOrder();
+  </script>
+</body>
+</html>
